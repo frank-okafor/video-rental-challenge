@@ -14,9 +14,9 @@
 	<name>video-rental-challenge</name>
 	<description>Spring Boot Application for Video Rental Challenge</description>
 	<properties>
-		<java.version>16</java.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-   		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+   		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
