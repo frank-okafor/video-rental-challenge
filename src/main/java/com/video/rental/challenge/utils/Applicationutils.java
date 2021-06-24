@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Maps;
 import com.video.rental.challenge.DTOs.PriceDTO;
 import com.video.rental.challenge.DTOs.ProductDTO;
 import com.video.rental.challenge.DTOs.UserRequestDTO;
@@ -128,7 +129,7 @@ public class Applicationutils {
 	product.setUser(newUser);
 	List<Products> newProductList = Arrays.asList(product);
 	newUser.setProducts(newProductList);
-	return Map.entry(newUser, convertToUserRequest(newUser));
+	return Maps.immutableEntry(newUser, convertToUserRequest(newUser));
     }
 
     // get total prices for member requests and convert to user request object

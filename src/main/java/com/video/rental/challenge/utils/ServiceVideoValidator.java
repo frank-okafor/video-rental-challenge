@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+import com.google.common.collect.Maps;
 import com.video.rental.challenge.DTOs.ServiceResponse;
 import com.video.rental.challenge.DTOs.VideoDTO;
 import com.video.rental.challenge.enums.Type;
@@ -20,34 +21,34 @@ public interface ServiceVideoValidator extends Function<VideoDTO, Entry<Boolean,
 
     static ServiceVideoValidator isMovieTitleValid() {
 	return video -> video.getVideoTitle().trim().isEmpty() || video.getVideoTitle().length() < 2
-		? Map.entry(false, ServiceResponse.builder().message(INVALID_VIDEO_TITLE).data(null).build())
-		: Map.entry(true, ServiceResponse.builder().message("").data(null).build());
+		? Maps.immutableEntry(false, ServiceResponse.builder().message(INVALID_VIDEO_TITLE).data(null).build())
+		: Maps.immutableEntry(true, ServiceResponse.builder().message("").data(null).build());
 
     }
 
     static ServiceVideoValidator isMovieTypeValid() {
 	return video -> !Applicationutils.checkInEnum(Type.class, video.getVideoType().toUpperCase())
-		? Map.entry(false, ServiceResponse.builder().message(INVALID_VIDEO_TYPE).data(null).build())
-		: Map.entry(true, ServiceResponse.builder().message("").data(null).build());
+		? Maps.immutableEntry(false, ServiceResponse.builder().message(INVALID_VIDEO_TYPE).data(null).build())
+		: Maps.immutableEntry(true, ServiceResponse.builder().message("").data(null).build());
     }
 
     static ServiceVideoValidator isMovieGenreValid() {
 	return video -> !Applicationutils.checkInEnum(VideoGenre.class, video.getVideoGenre().toUpperCase())
-		? Map.entry(false, ServiceResponse.builder().message(INVALID_VIDEO_GENRE).data(null).build())
-		: Map.entry(true, ServiceResponse.builder().message("").data(null).build());
+		? Maps.immutableEntry(false, ServiceResponse.builder().message(INVALID_VIDEO_GENRE).data(null).build())
+		: Maps.immutableEntry(true, ServiceResponse.builder().message("").data(null).build());
 
     }
 
     static ServiceVideoValidator isMaximumAgeValid() {
 	return video -> video.getMaximumAge() <= 0
-		? Map.entry(false, ServiceResponse.builder().message(INVALID_MAXIMUM_AGE).data(null).build())
-		: Map.entry(true, ServiceResponse.builder().message("").data(null).build());
+		? Maps.immutableEntry(false, ServiceResponse.builder().message(INVALID_MAXIMUM_AGE).data(null).build())
+		: Maps.immutableEntry(true, ServiceResponse.builder().message("").data(null).build());
     }
 
     static ServiceVideoValidator isReleaseYearValid() {
 	return video -> video.getReleaseYear() <= 0
-		? Map.entry(false, ServiceResponse.builder().message(INVALID_RELAESE_YEAR).data(null).build())
-		: Map.entry(true, ServiceResponse.builder().message("").data(null).build());
+		? Maps.immutableEntry(false, ServiceResponse.builder().message(INVALID_RELAESE_YEAR).data(null).build())
+		: Maps.immutableEntry(true, ServiceResponse.builder().message("").data(null).build());
     }
 
     default ServiceVideoValidator and(ServiceVideoValidator other) {

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+import com.google.common.collect.Maps;
 import com.video.rental.challenge.DTOs.PriceDTO;
 import com.video.rental.challenge.DTOs.ServiceResponse;
 
@@ -16,22 +17,23 @@ public interface ServicePriceValidator extends Function<PriceDTO, Entry<Boolean,
 
     static ServicePriceValidator isVideoTitleValid() {
 	return price -> price.getVideoTitle().trim().isEmpty() || price.getVideoTitle().length() < 2
-		? Map.entry(false, ServiceResponse.builder().message(INVALID_VIDEO_TITLE).data(null).build())
-		: Map.entry(true, ServiceResponse.builder().message("").data(null).build());
+		? Maps.immutableEntry(false, ServiceResponse.builder().message(INVALID_VIDEO_TITLE).data(null).build())
+		: Maps.immutableEntry(true, ServiceResponse.builder().message("").data(null).build());
 
     }
 
     static ServicePriceValidator isUsernameValid() {
 	return price -> price.getUsername().trim().isEmpty() || price.getUsername().length() < 2
-		? Map.entry(false, ServiceResponse.builder().message(INVALID_USERNAME).data(null).build())
-		: Map.entry(true, ServiceResponse.builder().message("").data(null).build());
+		? Maps.immutableEntry(false, ServiceResponse.builder().message(INVALID_USERNAME).data(null).build())
+		: Maps.immutableEntry(true, ServiceResponse.builder().message("").data(null).build());
 
     }
 
     static ServicePriceValidator isNumberOfRentalDaysValid() {
 	return price -> price.getNumberOfRentalDays() <= 0
-		? Map.entry(false, ServiceResponse.builder().message(INVALID_RENTAL_DAYS_VALUE).data(null).build())
-		: Map.entry(true, ServiceResponse.builder().message("").data(null).build());
+		? Maps.immutableEntry(false,
+			ServiceResponse.builder().message(INVALID_RENTAL_DAYS_VALUE).data(null).build())
+		: Maps.immutableEntry(true, ServiceResponse.builder().message("").data(null).build());
     }
 
     default ServicePriceValidator and(ServicePriceValidator other) {

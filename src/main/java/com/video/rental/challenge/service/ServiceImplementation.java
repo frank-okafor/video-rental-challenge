@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Maps;
 import com.video.rental.challenge.DTOs.PriceDTO;
 import com.video.rental.challenge.DTOs.ServiceResponse;
 import com.video.rental.challenge.DTOs.UserRequestDTO;
@@ -60,7 +61,7 @@ public class ServiceImplementation {
 	List<Video> videos = videoPages.getContent();
 	List<VideoDTO> response = videos.parallelStream().map(video -> Applicationutils.videoToDto(video))
 		.collect(Collectors.toList());
-	return Map.entry(true, ServiceResponse.builder().message("results found!").data(response).build());
+	return Maps.immutableEntry(true, ServiceResponse.builder().message("results found!").data(response).build());
     }
 
     // create a new video or edit already existing
@@ -75,7 +76,7 @@ public class ServiceImplementation {
 	if (optionalVideo.isPresent()) {
 	    Video video = optionalVideo.get();
 	    videoRepo.save(Applicationutils.newVideo(dto, video));
-	    response = Map.entry(true,
+	    response = Maps.immutableEntry(true,
 		    ServiceResponse.builder().message("video updated successfully").data(dto).build());
 	} else {
 	    response = saveVideoIfNotExists(dto);
@@ -101,7 +102,7 @@ public class ServiceImplementation {
 	    User user = optionalUser.get();
 	    Map.Entry<User, UserRequestDTO> result = Applicationutils.getUserPricing(dto, user, video);
 	    productRepo.saveAll(result.getKey().getProducts());
-	    response = Map.entry(true,
+	    response = Maps.immutableEntry(true,
 		    ServiceResponse.builder().message("request updated successfully").data(result.getValue()).build());
 	} else {
 	    response = saveUserRequestIfNotExists(dto, video);
@@ -112,14 +113,15 @@ public class ServiceImplementation {
     // save new video to the db
     private Entry<Boolean, ServiceResponse> saveVideoIfNotExists(VideoDTO dto) {
 	videoRepo.save(Applicationutils.newVideo(dto, null));
-	return Map.entry(true, ServiceResponse.builder().message("video created successfully").data(dto).build());
+	return Maps.immutableEntry(true,
+		ServiceResponse.builder().message("video created successfully").data(dto).build());
     }
 
     // save new user request to the db
     private Entry<Boolean, ServiceResponse> saveUserRequestIfNotExists(PriceDTO dto, Video video) {
 	Map.Entry<User, UserRequestDTO> result = Applicationutils.getUserPricing(dto, null, video);
 	userRepo.save(result.getKey());
-	return Map.entry(true,
+	return Maps.immutableEntry(true,
 		ServiceResponse.builder().message("request created successfully").data(result.getValue()).build());
     }
 }
