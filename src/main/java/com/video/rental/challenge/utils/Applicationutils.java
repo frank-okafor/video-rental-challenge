@@ -14,7 +14,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -123,7 +122,7 @@ public class Applicationutils {
 	if (user != null) {
 	    product.setUser(user);
 	    user.getProducts().add(product);
-	    return Map.entry(user, convertToUserRequest(user));
+	    return Maps.immutableEntry(user, convertToUserRequest(user));
 	}
 	User newUser = User.builder().username(dto.getUsername()).products(new ArrayList<>()).build();
 	product.setUser(newUser);
