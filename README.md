@@ -25,4 +25,6 @@ https://video-rental-challenge.herokuapp.com/swagger-ui.html#/
 
 For further information on the apis and its functionalities, the below postman collection can be utilized
 
+https://documenter.getpostman.com/view/14924131/TzecCjzP
+
 Please reach out to me for any question or clarification (Frank Okafor).
