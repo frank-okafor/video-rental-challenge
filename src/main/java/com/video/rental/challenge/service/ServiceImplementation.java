@@ -30,6 +30,7 @@ import com.video.rental.challenge.DTOs.UserRequestDTO;
 import com.video.rental.challenge.DTOs.VideoDTO;
 import com.video.rental.challenge.entity.User;
 import com.video.rental.challenge.entity.Video;
+import com.video.rental.challenge.enums.Type;
 import com.video.rental.challenge.exception.ServiceException;
 import com.video.rental.challenge.repository.ProductRepository;
 import com.video.rental.challenge.repository.UserRepository;
@@ -67,10 +68,24 @@ public class ServiceImplementation {
     // create a new video or edit already existing
     public Entry<Boolean, ServiceResponse> createEditVideo(VideoDTO dto) {
 	// check that all fields for creating or editing video are valid
-	Entry<Boolean, ServiceResponse> response = isMaximumAgeValid().and(isMovieGenreValid()).and(isMovieTitleValid())
-		.and(isMovieTypeValid()).and(isReleaseYearValid()).apply(dto);
+	Entry<Boolean, ServiceResponse> response = isMovieGenreValid().and(isMovieTitleValid()).and(isMovieTypeValid())
+		.apply(dto);
 	if (!response.getKey()) {
 	    return response;
+	}
+	// validate for children type movies
+	if (dto.getVideoType().equalsIgnoreCase(Type.CHILDRENS_MOVIE.getTypeName())) {
+	    response = isMaximumAgeValid().apply(dto);
+	    if (!response.getKey()) {
+		return response;
+	    }
+	}
+	// validate for new releases
+	if (dto.getVideoType().equalsIgnoreCase(Type.NEW_RELEASE.getTypeName())) {
+	    response = isReleaseYearValid().apply(dto);
+	    if (!response.getKey()) {
+		return response;
+	    }
 	}
 	Optional<Video> optionalVideo = videoRepo.findByTitle(dto.getVideoTitle());
 	if (optionalVideo.isPresent()) {

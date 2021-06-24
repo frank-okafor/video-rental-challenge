@@ -21,7 +21,7 @@ Swagger api documentation was used for this service
 
 Use the below url to access the swagger ui on Heroku for your testing pleasure.
 
-https://activ-edge.herokuapp.com/swagger-ui.html#/
+https://video-rental-challenge.herokuapp.com/swagger-ui.html#/
 
 For further information on the apis and its functionalities, the below postman collection can be utilized
 
